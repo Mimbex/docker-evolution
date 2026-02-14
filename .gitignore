@@ -1,0 +1,5 @@
+.env
+postgres_data/
+redis_data/
+evolution_store/
+.DS_Store

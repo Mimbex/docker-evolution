@@ -5,7 +5,7 @@ services:
     container_name: evolution_api
     restart: unless-stopped
     volumes:
-      - ./evolution_store:/evolution/store # Persistent storage (images, media)
+      - evolution_store:/evolution/store
     environment:
       - SERVER_URL=${SERVER_URL}
       - AUTHENTICATION_API_KEY=${AUTHENTICATION_API_KEY}
@@ -40,7 +40,7 @@ services:
       POSTGRES_PASSWORD: ${DB_password}
       POSTGRES_DB: ${DB_database}
     volumes:
-      - ./postgres_data:/var/lib/postgresql/data
+      - evolution_postgres_data:/var/lib/postgresql/data
     networks:
       - default
 
@@ -50,9 +50,14 @@ services:
     restart: unless-stopped
     command: ["redis-server", "--appendonly", "yes"]
     volumes:
-      - ./redis_data:/data
+      - evolution_redis_data:/data
     networks:
       - default
+
+volumes:
+  evolution_store:
+  evolution_postgres_data:
+  evolution_redis_data:
 
 networks:
   proxy:
