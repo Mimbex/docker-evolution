@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
   evolution_api:
-    image: atallux/evolution-api:v2.1.2 # Production Stable Version
+    image: atendai/evolution-api:v2.1.1 # Production Stable Version
     container_name: evolution_api
     restart: unless-stopped
     volumes:
@@ -11,6 +11,7 @@ services:
       - SERVER_URL=${SERVER_URL}
       - AUTHENTICATION_API_KEY=${AUTHENTICATION_API_KEY}
       - DATABASE_ENABLED=true
+      - DATABASE_PROVIDER=postgresql
       - DATABASE_CONNECTION_URI=postgresql://${DB_user}:${DB_password}@${DB_host}:${DB_port}/${DB_database}
       - DATABASE_CLIENT_NAME=evolution_v2
       - CACHE_REDIS_ENABLED=${CACHE_REDIS_ENABLED}
@@ -20,16 +21,15 @@ services:
       - QB_LIMIT=${qrcode_limit}
     networks:
       - default
-      - proxy # CHANGE THIS if your Traefik network has a different name
+      - proxy
     depends_on:
       - evolution_postgres
       - evolution_redis
     labels:
       - "traefik.enable=true"
-      # IMPORTANT: If using multiple subdomains, you can expand this rule: Host(`domain1.com`) || Host(`domain2.com`)
       - "traefik.http.routers.evolution.rule=Host(`${SERVER_URL}`.replace('https://', '').replace('http://', ''))" 
       - "traefik.http.routers.evolution.entrypoints=websecure"
-      - "traefik.http.routers.evolution.tls.certresolver=myresolver" # Change 'myresolver' to your resolver name (e.g. 'le')
+      - "traefik.http.routers.evolution.tls.certresolver=myresolver"
       - "traefik.http.services.evolution.loadbalancer.server.port=8080"
 
   evolution_postgres:
@@ -57,4 +57,4 @@ services:
 
 networks:
   proxy:
-    external: true # Assumes 'proxy' network exists (created by Traefik)
+    external: true
