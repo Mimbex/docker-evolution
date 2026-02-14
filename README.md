@@ -1,6 +1,7 @@
-# 🚀 Easy Evolution API Deployment for Odoo
+# 🚀 Easy Evolution API Deployment for Docker & Traefik
 
-Deploy a production-ready **Evolution API (WhatsApp Gateway)** instance in seconds using Docker & Traefik. Designed for seamless integration with Odoo.
+Deploy a production-ready **Evolution API (WhatsApp Gateway)** instance in seconds using Docker & Traefik.  
+This is a **Universal Deployment Package** compatible with any system (CRM, ERP, Chatbot, etc.) that needs to consume the Evolution API.
 
 ## ✨ Features
 - **Zero-Config Deployment:** Pre-tuned `docker-compose.yml` for production.
@@ -35,17 +36,13 @@ Deploy a production-ready **Evolution API (WhatsApp Gateway)** instance in secon
 
 ---
 
-## 🔗 Odoo Integration Steps
+## 🔗 Integration
 
-Once your containers are running (Green lock on HTTPS):
+Once your containers are running (Green lock on HTTPS), you can connect any software to your API:
 
-1.  Go to **Odoo** -> **Settings** -> **Companies** -> **your company**.
-2.  Open the **Evolution Integration** tab.
-3.  **API URL:** Enter your domain (e.g., `https://whatsapp.yourdomain.com`).
-4.  **API Global Token:** Enter the `AUTHENTICATION_API_KEY` you set in `.env`.
-5.  **Instance Name:** Enter a name (e.g., `SalesBot`).
-6.  Click **"Test Connection"**.
-    - *If it fails, use the "Create Instance" button in the WhatsApp Accounts menu.*
+- **API URL:** `https://whatsapp.yourdomain.com`
+- **Global Token:** The `AUTHENTICATION_API_KEY` you defined in `.env`.
+- **Docs:** Your API Swagger docs will be available at `https://whatsapp.yourdomain.com/docs` (if enabled in Evolution settings).
 
 ---
 
@@ -53,4 +50,4 @@ Once your containers are running (Green lock on HTTPS):
 
 - `docker-compose.yml`: Main service definition (API + DB + Redis).
 - `.env.example`: Configuration template.
-- `traefik_network`: Assumes your public Traefik network is named `proxy` (or `web`). Check `docker-compose.yml` if different.
+- `traefik_network`: Assumes your public Traefik network is named `proxy`. Check `docker-compose.yml` if you use a different name (e.g., `web`).
